@@ -21,14 +21,13 @@ const drawStripes = (page, base, stripes) => {
   });
 };
 
-const drawHorizontalStripes = (page, base, horizontalStripes) => {
-  return page.pattern(20, 24, function (add) {
+const drawHorizontalStripes = (page, base, horizontalStripes) =>
+  page.pattern(20, 24, function (add) {
     add.rect(20, 24).fill(`#${base}`);
     add.rect(20, 3).fill(`#${horizontalStripes}`);
     add.rect(20, 3).move(0, 5.6).fill(`#${horizontalStripes}`);
     add.rect(20, 3).move(0, 11.2).fill(`#${horizontalStripes}`);
   });
-};
 
 const drawSplit = (page, base, split) => {
   return page.pattern(20, 24, function (add) {
