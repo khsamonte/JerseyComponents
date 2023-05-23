@@ -1,13 +1,85 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  padding: 0;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  background: #dbdbdb;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.main-container {
+  max-width: 80rem;
+  padding: 0 1.6rem 1.6rem;
+}
+
+.sample-container {
+  max-width: 100rem;
+  padding: 0 1.6rem 1.6rem;
+}
+
+h2 {
+  color: #000;
+  font-size: 1.8rem;
+  padding: 1.6rem 0;
+}
+
+.jersey-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0 1.6rem;
+}
+
+.jersey-sample-panels {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 0 0.4rem;
+  width: 100%;
+}
+
+.jersey-header {
+  background: #a6a6a6;
+  color: #000;
+  border: 2px solid #000;
+  border-bottom: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.8rem 1.6rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.jersey-frame {
+  align-items: center;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  min-height: 8rem;
+  padding: 1.6rem;
+}
+
+.jersey-frame.light-bg {
+  background: #dbdbdb;
+}
+.jersey-frame.dark-bg {
+  background: #424242;
+}
+
+/* .jersey-frame img {
+  max-width: 20px;
+} */
