@@ -1,8 +1,8 @@
 import { SVG } from "@svgdotjs/svg.js";
 const { btoa } = require("abab");
 
-function drawSquares(page, base, squares) {
-  return page.pattern(20, 24, function (add) {
+const drawSquares = (page, base, squares) =>
+  page.pattern(20, 24, function (add) {
     add.rect(20, 20).fill(`#${base}`);
     add.rect(4.2, 4.7).move(3.7, 0).fill(`#${squares}`);
     add.rect(4.2, 4.7).move(12.1, 0).fill(`#${squares}`);
@@ -10,16 +10,14 @@ function drawSquares(page, base, squares) {
     add.rect(4.2, 4.8).move(3.7, 9.5).fill(`#${squares}`);
     add.rect(4.2, 4.8).move(12.1, 9.5).fill(`#${squares}`);
   });
-}
 
-const drawStripes = (page, base, stripes) => {
-  return page.pattern(20, 24, function (add) {
+const drawStripes = (page, base, stripes) =>
+  page.pattern(20, 24, function (add) {
     add.rect(20, 24).fill(`#${base}`);
     add.rect(2.5, 24).move(3.7, 0).fill(`#${stripes}`);
     add.rect(2.5, 24).move(8.8, 0).fill(`#${stripes}`);
     add.rect(2.5, 24).move(13.8, 0).fill(`#${stripes}`);
   });
-};
 
 const drawHorizontalStripes = (page, base, horizontalStripes) =>
   page.pattern(20, 24, function (add) {
@@ -29,12 +27,11 @@ const drawHorizontalStripes = (page, base, horizontalStripes) =>
     add.rect(20, 3).move(0, 11.2).fill(`#${horizontalStripes}`);
   });
 
-const drawSplit = (page, base, split) => {
-  return page.pattern(20, 24, function (add) {
+const drawSplit = (page, base, split) =>
+  page.pattern(20, 24, function (add) {
     add.rect(20, 24).fill(`#${split}`);
     add.rect(6.5, 24).move(3.7, 0).fill(`#${base}`);
   });
-};
 
 export default function drawJersey({
   base,
