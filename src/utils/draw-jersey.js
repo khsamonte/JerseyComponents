@@ -1,36 +1,105 @@
 import { SVG } from "@svgdotjs/svg.js";
 const { btoa } = require("abab");
 
+// Parameters
+const w = 25; // SVG viewbox width
+const h = 24; // SVG viewbox height
+
+const sleeveW = w / 5; // sleeve width
+const shirtW = w - sleeveW * 2; // shirt chest width
+
+const horStripeW = shirtW / 5; // horizontal stripe width
+const horStripeH = h / 5; // horizontal stripe height
+
+const squareW = shirtW / 3;
+
 const drawSquares = (page, base, squares) =>
-  page.pattern(20, 24, function (add) {
-    add.rect(20, 20).fill(`#${base}`);
-    add.rect(4.2, 4.7).move(3.7, 0).fill(`#${squares}`);
-    add.rect(4.2, 4.7).move(12.1, 0).fill(`#${squares}`);
-    add.rect(4.2, 4.8).move(7.9, 4.7).fill(`#${squares}`);
-    add.rect(4.2, 4.8).move(3.7, 9.5).fill(`#${squares}`);
-    add.rect(4.2, 4.8).move(12.1, 9.5).fill(`#${squares}`);
+  page.pattern(w, h, function (add) {
+    add.rect(w, h).fill(`#${base}`);
+    add.rect(w, h).fill(`#${base}`);
+
+    // 1st row
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW, horStripeH * 0)
+      .fill(`#${squares}`);
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW + squareW * 2, horStripeH * 0)
+      .fill(`#${squares}`);
+
+    // 2nd row
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW + squareW * 1, horStripeH * 1)
+      .fill(`#${squares}`);
+
+    // 3rd row
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW, horStripeH * 2)
+      .fill(`#${squares}`);
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW + squareW * 2, horStripeH * 2)
+      .fill(`#${squares}`);
+
+    // 4th row
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW + squareW * 1, horStripeH * 3)
+      .fill(`#${squares}`);
+
+    // 5th row
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW, horStripeH * 4)
+      .fill(`#${squares}`);
+    add
+      .rect(squareW, horStripeH)
+      .move(sleeveW + squareW * 2, horStripeH * 4)
+      .fill(`#${squares}`);
   });
 
 const drawStripes = (page, base, stripes) =>
-  page.pattern(20, 24, function (add) {
-    add.rect(20, 24).fill(`#${base}`);
-    add.rect(2.5, 24).move(3.7, 0).fill(`#${stripes}`);
-    add.rect(2.5, 24).move(8.8, 0).fill(`#${stripes}`);
-    add.rect(2.5, 24).move(13.8, 0).fill(`#${stripes}`);
+  page.pattern(w, h, function (add) {
+    add.rect(w, h).fill(`#${base}`);
+    // add.rect(horStripeW, h).move(sleeveW, 0).fill(`#${stripes}`);
+    add.rect(horStripeW, h).move(sleeveW, 0).fill(`#${stripes}`);
+    add
+      .rect(horStripeW, h)
+      .move(sleeveW + horStripeW * 2, 0)
+      .fill(`#${stripes}`);
+    add
+      .rect(horStripeW, h)
+      .move(sleeveW + horStripeW * 4, 0)
+      .fill(`#${stripes}`);
   });
 
 const drawHorizontalStripes = (page, base, horizontalStripes) =>
-  page.pattern(20, 24, function (add) {
-    add.rect(20, 24).fill(`#${base}`);
-    add.rect(20, 3).fill(`#${horizontalStripes}`);
-    add.rect(20, 3).move(0, 5.6).fill(`#${horizontalStripes}`);
-    add.rect(20, 3).move(0, 11.2).fill(`#${horizontalStripes}`);
+  page.pattern(w, h, function (add) {
+    add.rect(w, h).fill(`#${base}`);
+    add
+      .rect(w, horStripeH)
+      .move(sleeveW, horStripeH * 0)
+      .fill(`#${horizontalStripes}`);
+    add
+      .rect(w, horStripeH)
+      .move(sleeveW, horStripeH * 2)
+      .fill(`#${horizontalStripes}`);
+    add
+      .rect(w, horStripeH)
+      .move(sleeveW, horStripeH * 4)
+      .fill(`#${horizontalStripes}`);
   });
 
 const drawSplit = (page, base, split) =>
-  page.pattern(20, 24, function (add) {
-    add.rect(20, 24).fill(`#${split}`);
-    add.rect(6.5, 24).move(3.7, 0).fill(`#${base}`);
+  page.pattern(w, h, function (add) {
+    add.rect(w, h).fill(`#${split}`);
+    add
+      .rect(shirtW / 2, h)
+      .move(sleeveW, 0)
+      .fill(`#${base}`);
   });
 
 export default function drawJersey({
@@ -49,22 +118,19 @@ export default function drawJersey({
 }) {
   // Main shirt
   const pathMainBody =
-    "M16.3002 8.1V0.8C16.0002 0.7 15.8002 0.6 15.6002 0.5C15.2002 0.3 14.8002 0.2 14.5002 0.2C14.2002 0.1 14.0002 0.1 13.5002 0C13.1002 0 12.7002 0 12.3002 0C12.2002 0.5 12.0002 0.9 11.7002 1.2C11.6002 1.4 11.4002 1.5 11.2002 1.6C10.9002 1.9 10.5002 2 10.0002 2C9.5002 2 9.1002 1.9 8.8002 1.6C8.6002 1.5 8.4002 1.4 8.3002 1.2C8.0002 0.9 7.8002 0.5 7.7002 0C7.30019 0 6.9002 0 6.5002 0.1C6.0002 0.1 5.9002 0.1 5.5002 0.2C5.2002 0.3 4.9002 0.4 4.4002 0.5C4.3002 0.6 4.0002 0.7 3.7002 0.8V6.2V13.3V13.5V13.7C3.7002 14 3.9002 14.2 4.2002 14.2H10.0002H15.8002C16.1002 14.2 16.3002 14 16.3002 13.7V13.4V8.1Z";
+    "M24.5 3.603C24.51 3.37281 24.39 3.15263 24.18 3.04254L20.55 1.201C20.38 1.12093 20.21 1.05088 20.03 0.980817C19.68 0.820684 19.32 0.690575 18.96 0.570475C18.94 0.570475 18.92 0.560467 18.91 0.550459C18.57 0.440367 18.22 0.340284 17.87 0.270225C17.77 0.250208 17.66 0.230192 17.55 0.210175C17.27 0.160133 17 0.100083 16.72 0.0700584C16.32 0.0200167 15.92 0 15.51 0C15.37 0 15.26 0.100083 15.23 0.230192C14.92 1.49124 13.82 2.43203 12.5 2.43203C11.18 2.43203 10.08 1.49124 9.77 0.230192C9.74 0.100083 9.63 0 9.49 0C7.74 0 6.01 0.410342 4.45 1.201L0.83 3.04254C0.72 3.09258 0.64 3.18265 0.58 3.28274C0.53 3.37281 0.5 3.4829 0.5 3.603L1.1 8.18682L1.21 9.04754C1.21 9.12761 1.23 9.20767 1.24 9.29775C1.27 9.55796 1.33 9.75813 1.4 9.82819C1.67 10.0684 2.15 9.84821 2.24 9.79816L2.27 9.77815L4.95 8.60717V21.1877C4.95 21.4979 5.1 21.7982 5.37 21.9683C6.33 22.5888 8.9 24 12.48 24C16.06 24 18.63 22.5888 19.59 21.9683C19.85 21.7982 20.01 21.4979 20.01 21.1877V8.60717L22.36 9.63803L22.79 9.82819C23.2 10.0083 23.68 9.73811 23.74 9.29775L24.49 3.62302L24.5 3.603Z";
 
   const pathLeftSleeve =
-    "M0.700195 2.2998L1.6002 6.6998L3.7002 6.2998V0.799805C3.4002 0.999805 3.0002 1.0998 2.8002 1.1998C2.4002 1.3998 1.3002 1.9998 0.700195 2.2998Z";
-
-  const pathLeftSleeveDetail =
-    "M0.7 2.2998C0.5 2.3998 0.3 2.4998 0.3 2.4998C0.1 2.5998 0 2.7998 0 2.9998L0.7 6.39981C0.9 6.9998 1.2 6.7998 1.6 6.6998L0.7 2.2998Z";
+    "M4.45914 1.2009L1.36914 2.7622L2.28914 9.76804L4.96914 8.59706V0.980713C4.79914 1.06078 4.61914 1.12083 4.45914 1.2009Z";
 
   const pathRightSleeve =
-    "M19.2998 2.2998L18.3998 6.6998L16.2998 6.2998V0.799805C16.5998 0.899805 16.9998 1.0998 17.1998 1.1998C17.5998 1.3998 18.5998 1.9998 19.2998 2.2998Z";
+    "M22.7093 9.76804L23.6293 2.7622L20.5393 1.2009C20.3693 1.12083 20.1993 1.05077 20.0293 0.980713V8.59706L22.7093 9.76804Z";
+
+  const pathLeftSleeveDetail =
+    "M2.29 9.76805L1.37 2.77222L0.83 3.04244C0.61 3.15253 0.5 3.37272 0.5 3.60291L1.1 8.18673L1.21 9.04745C1.21 9.12751 1.23 9.20758 1.24 9.29766C1.27 9.55787 1.33 9.75804 1.4 9.8281C1.67 10.0683 2.15 9.84811 2.24 9.79807L2.27 9.77806L2.29 9.76805Z";
 
   const pathRightSleeveDetail =
-    "M19.9998 2.9998C19.9998 2.7998 19.8998 2.5998 19.6998 2.4998C19.6998 2.4998 19.4998 2.3998 19.1998 2.2998L18.2998 6.6998C18.6998 6.7998 18.9998 6.9998 19.1998 6.39981L19.9998 2.9998Z";
-
-  const pathTrousers =
-    "M16.3002 15.7002C16.3002 15.4002 16.1002 15.2002 15.8002 15.2002H10.0002H4.2002C3.9002 15.2002 3.7002 15.4002 3.7002 15.7002L3.2002 23.5002C3.2002 23.8002 3.4002 24.0002 3.7002 24.0002H8.7002C8.9002 24.0002 9.1002 23.8002 9.2002 23.6002L9.9002 20.5002C10.0002 20.4002 10.1002 20.3002 10.2002 20.5002L10.9002 23.6002C11.0002 23.8002 11.2002 24.0002 11.4002 24.0002H16.4002C16.7002 24.0002 16.9002 23.8002 16.9002 23.5002L16.3002 15.7002Z";
+    "M22.7109 9.76805L23.6309 2.77222L24.1709 3.04244C24.3809 3.15253 24.5009 3.37272 24.4909 3.60291L23.8909 8.18673L23.7809 9.04745C23.7809 9.12751 23.7609 9.20758 23.7509 9.29766C23.7209 9.55787 23.6609 9.75804 23.5909 9.8281C23.3209 10.0683 22.8409 9.84811 22.7509 9.79807L22.7209 9.77806L22.7109 9.76805Z";
 
   const page = SVG();
 
@@ -90,10 +156,7 @@ export default function drawJersey({
   page.path(pathRightSleeve).fill(`#${sleeve}`);
   page.path(pathRightSleeveDetail).fill(`#${sleeve_detail}`);
 
-  // Shorts
-  page.path(pathTrousers).fill("#999999");
-
-  page.viewbox("0 0 20 24");
+  page.viewbox(`0 0 ${w} ${h}`);
 
   const svgData = page.svg();
 
